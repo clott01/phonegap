@@ -2,6 +2,7 @@
  *  Sound.m
  *
  *  Created by Nitobi on 12/12/08.
+ *  Modified by Chris Lott on 3/9/09
  *  Copyright 2008 Nitobi. All rights reserved.
  *
  */
@@ -16,7 +17,8 @@
 	self = [super init];
 	if (self != nil) {
 		NSURL *filePath = [NSURL fileURLWithPath:path isDirectory:NO];
-		AudioServicesCreateSystemSoundID((CFURLRef)filePath, &soundID);
+		player = [[AVAudioPlayer alloc] initWithContentsOfURL: filePath error:NULL];
+		[player prepareToPlay];
 	}
 	return self;
 }
@@ -25,10 +27,11 @@
  * play - Plays the sound
  */ 
 - (void) play {
-	AudioServicesPlaySystemSound(soundID);
+	[player play];
 }
 
 - (void) dealloc {
+	[player play];
 	[super dealloc];
 }
 @end
